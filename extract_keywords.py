@@ -4,6 +4,7 @@ import json
 import http.client
 import urllib
 from glob import glob
+import re
 
 def extract_file(filename):
     paragraphs = [paragraph for paragraph in open(filename + '.txt', 'r').readlines() if len(paragraph) > 0]
@@ -24,13 +25,15 @@ def extract_file(filename):
     params = urllib.urlencode({
     })
 
+    paragraph_numbers = [re.findall(r'\d[\d,.]+', paragraph) for paragraph in paragraphs]
+
     conn = http.client.HTTPSConnection('westus.api.cognitive.microsoft.com')
     conn.request("POST", "/text/analytics/v2.0/keyPhrases?%s" % params, json.dumps({"documents": documents}), headers)
     response = conn.getresponse()
     data = json.loads(response.read())
 
     sorted_documents = sorted(data['documents'], key=lambda d: int(d['id']))
-    phrase_lines = [",".join(doc['keyPhrases']) for doc in sorted_documents]
+    phrase_lines = [" ".join(z[0]['keyPhrases'] + z[1]) for z in zip(sorted_documents, paragraph_numbers)]
     open(filename + ".keywords", 'w').write("\n".join(phrase_lines).encode('utf-8'))
 
 for file in glob("data/*.txt"):
