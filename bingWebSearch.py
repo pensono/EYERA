@@ -7,7 +7,7 @@ import http.client, urllib.parse, json
 # **********************************************
 
 # Replace the subscriptionKey string value with your valid subscription key.
-subscriptionKey = "b08cd263c48f4a769ca32fd4faffcdbc"
+subscriptionKey = "what key"
 
 # Verify the endpoint URI.  At this writing, only one endpoint is used for Bing
 # search APIs.  In the future, regional endpoints may be available.  If you
