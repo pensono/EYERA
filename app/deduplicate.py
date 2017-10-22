@@ -24,10 +24,12 @@ def frankenarticle(articles):
             else:
                 # reject the shortest one.
                 index = dedup_article.index(dup)
-                use = dup if len(dup['text']) > len(paragraph['text']) else paragraph
-                reject = paragraph if len(dup['text']) > len(paragraph['text']) else dup
-                dedup_article[index] = use
-                rejects.append({'reject': reject, 'matched_with': use})
+                if len(dup['text']) > len(paragraph['text']):
+                    rejects.append({'reject': paragraph, 'matched_with': dup})
+                else:
+                    dedup_article.remove(dup)
+                    dedup_article.append(paragraph)
+                    rejects.append({'reject': dup, 'matched_with': paragraph})
 
     return "\n".join([paragraph['text'] for paragraph in dedup_article])
 #    print("Article:")
