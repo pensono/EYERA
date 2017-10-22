@@ -1,1 +1,1 @@
-Welcome to EYERA, a news application!
+Welcome to EYERA, a news web application!
