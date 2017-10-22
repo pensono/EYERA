@@ -30,8 +30,10 @@
       -
       - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
     -->
+    <script src="jquery-3.2.1.min.js"></script>
     <script src="popup.js"></script>
     <script src="highlight.js"></script>
+    <script src="ajax.js"></script>
   </head>
 
   <body>
@@ -46,8 +48,11 @@
         <option value="yellow">Yellow</option>
       </select>-->
     </div>
-    <div id="output">
+    <div id="highlighted">
       <!--right now, this is where the highlighted text shows up-->
+    </div>
+    <div id="ajax">
+      <button>Hello Ajax</button>
     </div>
   </body>
 </html>
