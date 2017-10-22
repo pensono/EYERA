@@ -10,8 +10,11 @@ chrome.tabs.executeScript( {
       data: {"highlight": selection[0] },
       success: function(result){
         var article = result.article;
-
-        $("#ajax").html(article);
+        var paragraphs = article.split("\n");
+        for(var i = 0; i < paragraphs.length; i++){
+            var par = paragraphs[i];
+            $("#ajax").append("<p>" + par + "</p>");
+        }
       }
     });
   }
