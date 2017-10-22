@@ -15,6 +15,7 @@ h2t.ignore_links = True
 h2t.ignore_tables = True
 h2t.body_width = 0
 
+SEARCH_API_KEY = os.environ['SEARCH_API_KEY']
 
 def extract_file(filename):
     paragraphs = [paragraph for paragraph in open(filename + '.txt', 'r').readlines() if len(paragraph) > 0]
@@ -57,7 +58,7 @@ def get_related(keywords):
 
     request = urllib.request.Request("https://api.cognitive.microsoft.com/bing/v7.0/news/search?" + params)
     request.add_header('Content-Type', 'application/json')
-    request.add_header('Ocp-Apim-Subscription-Key', os.environ['SEARCH_API_KEY'])
+    request.add_header('Ocp-Apim-Subscription-Key', SEARCH_API_KEY)
     response = urllib.request.urlopen(request)
     data = json.loads(response.read())
 

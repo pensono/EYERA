@@ -3,6 +3,9 @@ import json
 import http.client
 import re
 
+TEXT_ANALYSIS_API_KEY = os.environ['TEXT_ANALYSIS_API_KEY']
+
+
 def keywords_from_string(text):
     document = {
         'language': 'en',
@@ -12,7 +15,7 @@ def keywords_from_string(text):
     headers = {
         # Request headers
         'Content-Type': 'application/json',
-        'Ocp-Apim-Subscription-Key': os.environ['TEXT_ANALYSIS_API_KEY'],
+        'Ocp-Apim-Subscription-Key': TEXT_ANALYSIS_API_KEY,
     }
 
     numbers = re.findall(r'\d[\d,.]+', text)
@@ -40,7 +43,7 @@ def keywords_from_article(article):
     headers = {
         # Request headers
         'Content-Type': 'application/json',
-        'Ocp-Apim-Subscription-Key': os.environ['TEXT_ANALYSIS_API_KEY'],
+        'Ocp-Apim-Subscription-Key': TEXT_ANALYSIS_API_KEY,
     }
 
     paragraph_numbers = [re.findall(r'\d[\d,.]+', paragraph) for paragraph in paragraphs]
