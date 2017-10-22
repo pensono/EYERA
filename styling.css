@@ -1,11 +1,21 @@
 body {
   margin: 10px;
-  white-space: nowrap;
+  width: 400px;
+  border: #a81231;
 }
 
-h1 {
-  font-size: 15px;
-}
+    body #container {
+      height: 100%;
+    }
+
+    body #highlighted {
+      font-size: 15px;
+    }
+
+    body h1 {
+      font-size: 20px;
+      text-align: center;
+    }
 
 #container {
   align-items: center;

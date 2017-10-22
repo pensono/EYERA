@@ -1,14 +1,18 @@
 chrome.tabs.executeScript( {
   code: "window.getSelection().toString();"
 }, function(selection) {
-  document.getElementById("highlighted").innerHTML = selection[0];
+  if(selection){
+    document.getElementById("highlighted").innerHTML = "Related to: " + selection[0];
 
-  $.ajax({
+    $.ajax({
       type: "POST",
-      url: 'http://localhost:8000/app/',
-      data: '{"highlighted":' + selection[0] + '}',
+      url: 'http://localhost:8000/app/get',
+      data: {"highlight": selection[0] },
       success: function(result){
-        $("#ajax").html(result);
+        var article = result.article;
+
+        $("#ajax").html(article);
       }
-  });
+    });
+  }
 });
