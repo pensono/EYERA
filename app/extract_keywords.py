@@ -50,6 +50,9 @@ def keywords_from_article(article):
     response = conn.getresponse()
     data = json.loads(response.read())
 
+    if 'documents' not in data:
+        return []
+
     sorted_documents = sorted(data['documents'], key=lambda d: int(d['id']))
     #  This join/split combo proves that I am truely the spawn of satan #hackathon
     phrase_lines = [" ".join(z[0]['keyPhrases'] + z[1]).split(" ") for z in zip(sorted_documents, paragraph_numbers)]

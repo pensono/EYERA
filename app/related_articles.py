@@ -33,17 +33,20 @@ def extract_article_content(url):
 
     doc = Document(body)
     article_html = doc.summary()
+    article_text = h2t.handle(article_html).split("\n")
 
-    return [line for line in h2t.handle(article_html).split("\n") if len(line.strip()) > 0 and line.count(" ") > 5]  # Not blank and contains at least 6 words
+    return [line for line in article_text if len(line.strip()) > 0 and line.count(" ") > 5]  # Not blank and contains at least 6 words
 
 
 def get_article(url):
     try:
         lines = extract_article_content(url)
+        if len(lines) == 0:
+            return None
         return {'url': url, 'paragraphs': [{'text': line} for line in lines]}
     except urllib.error.HTTPError as e:
         print("Error retrieving article from: " + url)
-        pass  # Just chug right along...
+        return None  # Just chug right along...
 
 
 def get_related(keywords):
