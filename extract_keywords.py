@@ -6,6 +6,7 @@ import urllib
 from glob import glob
 import re
 
+
 def extract_file(filename):
     paragraphs = [paragraph for paragraph in open(filename + '.txt', 'r').readlines() if len(paragraph) > 0]
 
