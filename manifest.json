@@ -3,7 +3,7 @@
 
   "name": "Factually",
   "description": "A chrome extension that helps you find the facts by providing a variety of different perspectives on a highlighted news item.",
-  "version": "1.0",
+  "version": "2.0",
 
   "browser_action": {
     "default_icon": "icon.png",
@@ -12,5 +12,10 @@
   "permissions": [
     "activeTab",
     "storage"
-  ]
+  ],
+
+  "content_scripts": [ {
+    "js": [ "jquery-3.2.1.min.js", "highlight.js", "popup.js", "ajax.js" ],
+    "matches": [ "http://*/*", "https://*/*"]
+  }]
 }
