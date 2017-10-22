@@ -4,6 +4,8 @@ from app.related_articles import *
 from app.extract_keywords import *
 from app.deduplicate import *
 from django.views.decorators.csrf import csrf_exempt
+from app.extract_polarization import *
+from app.SourceDatabase import *
 
 # Create your views here.
 @csrf_exempt
@@ -32,6 +34,8 @@ def get(request):
         for z in zip(keywords, article['paragraphs']):
             z[1]['keywords'] = z[0]  # Just think about it a little
 
+    reccomended_articles = articles[:2]
+
     franken_article = frankenarticle(articles)
-    return JsonResponse({"article": franken_article})
+    return JsonResponse({"article": franken_article, 'recommended': reccomended_articles})
 

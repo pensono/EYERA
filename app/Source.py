@@ -8,9 +8,11 @@ class Source(object):
     POLARIZATION_RANKINGS = ["Left Bias", "Left-Center Bias", "Least Bias", "Right-Center Bias", "Right Bias"]
     highest = False
     lowest = False
+    url = ''
 
     def __init__(self, url, reliability, bias):
         self.name = self.parse_url(url)
+        self.url = url
         self.reliability = reliability
         self.polarization = self.POLARIZATION_RANKINGS.index(bias)
 
@@ -21,8 +23,5 @@ class Source(object):
     def parse_url(self, url):
         result = re.match(r"https?://([\w.]+?)/", url).group(1)
         return result.replace("www.", "")
-
-
-
 
 
