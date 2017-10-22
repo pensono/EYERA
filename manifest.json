@@ -12,5 +12,10 @@
   "permissions": [
     "activeTab",
     "storage"
-  ]
+  ],
+
+  "content_scripts": [ {
+    "js": [ "jquery-3.2.1.min.js", "ajax.js", "highlight.js", "popup.js" ],
+    "matches": [ "http://*/*", "https://*/*"]
+  }]
 }
