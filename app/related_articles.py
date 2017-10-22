@@ -6,6 +6,7 @@ from urllib.request import Request
 from urllib.error import HTTPError
 from readability import Document
 from html2text import HTML2Text
+from multiprocessing.dummy import Pool as ThreadPool
 
 h2t = HTML2Text()
 h2t.ignore_emphasis = True
@@ -36,6 +37,15 @@ def extract_article_content(url):
     return [line for line in h2t.handle(article_html).split("\n") if len(line.strip()) > 0 and line.count(" ") > 5]  # Not blank and contains at least 6 words
 
 
+def get_article(url):
+    try:
+        lines = extract_article_content(url)
+        return {'url': url, 'paragraphs': [{'text': line} for line in lines]}
+    except urllib.error.HTTPError as e:
+        print("Error retrieving article from: " + url)
+        pass  # Just chug right along...
+
+
 def get_related(keywords):
     params = urllib.parse.urlencode({
         'q': " ".join(keywords),
@@ -48,13 +58,9 @@ def get_related(keywords):
     response = urllib.request.urlopen(request)
     data = json.loads(response.read())
 
-    articles = []
-    for article in data['value']:
-        try:
-            lines = extract_article_content(article['url'])
-            articles.append({'url': article['url'], 'paragraphs': [{'text': line} for line in lines]})
-        except urllib.error.HTTPError as e:
-            print("Error retrieving article from: " + article['url'])
-            pass  # Just chug right along...
+    pool = ThreadPool(16)
+    articles = pool.map(get_article, [article['url'] for article in data['value']])
+    pool.close()
+    pool.join()
 
-    return articles
+    return [article for article in articles if article is not None]
