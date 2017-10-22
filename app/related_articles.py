@@ -12,6 +12,7 @@ h2t.ignore_emphasis = True
 h2t.ignore_images = True
 h2t.ignore_links = True
 h2t.ignore_tables = True
+h2t.body_width = 0
 
 
 def extract_file(filename):
@@ -32,7 +33,7 @@ def extract_article_content(url):
     doc = Document(body)
     article_html = doc.summary()
 
-    return [line for line in h2t.handle(article_html).split("\n") if len(line.strip()) > 0]
+    return [line for line in h2t.handle(article_html).split("\n") if len(line.strip()) > 0 and line.count(" ") > 5]  # Not blank and contains at least 6 words
 
 
 def get_related(keywords):
