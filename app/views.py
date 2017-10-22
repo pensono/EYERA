@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from app.related_articles import *
 from app.extract_keywords import *
+from app.deduplicate import *
 
 # Create your views here.
 def index(request):
@@ -14,6 +15,11 @@ def get(request):
     keywords = keywords_from_string(highlight)
     articles = get_related(keywords)
     for article in articles:
-        article['keywords'] = keywords_from_article(article['text'])
-    return JsonResponse({"result": articles})
+        keywords = keywords_from_article(article)
+
+        for z in zip(keywords, article['paragraphs']):
+            z[1]['keywords'] = z[0]  # Just think about it a little
+
+    franken_article = frankenarticle(articles)
+    return JsonResponse({"article": franken_article})
 

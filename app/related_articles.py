@@ -32,7 +32,7 @@ def extract_article_content(url):
     doc = Document(body)
     article_html = doc.summary()
 
-    return h2t.handle(article_html)
+    return [line for line in h2t.handle(article_html).split("\n") if len(line.strip()) > 0]
 
 
 def get_related(keywords):
@@ -50,7 +50,8 @@ def get_related(keywords):
     articles = []
     for article in data['value']:
         try:
-            articles.append({'url': article['url'], 'text': extract_article_content(article['url'])})
+            lines = extract_article_content(article['url'])
+            articles.append({'url': article['url'], 'paragraphs': [{'text': line} for line in lines]})
         except urllib.error.HTTPError as e:
             print("Error retrieving article from: " + article['url'])
             pass  # Just chug right along...

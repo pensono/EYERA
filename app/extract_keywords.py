@@ -27,8 +27,8 @@ def keywords_from_string(text):
     return keywords
 
 
-def keywords_from_article(article_text):
-    paragraphs = [paragraph for paragraph in article_text.splitlines() if len(paragraph) > 0]
+def keywords_from_article(article):
+    paragraphs = [paragraph['text'] for paragraph in article['paragraphs']]
 
     documents = []
     for i in range(len(paragraphs)):
