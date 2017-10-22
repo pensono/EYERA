@@ -15,6 +15,7 @@ h2t.ignore_links = True
 h2t.ignore_tables = True
 h2t.body_width = 0
 
+SEARCH_API_KEY = os.environ['SEARCH_API_KEY']
 
 def extract_file(filename):
     paragraphs = [paragraph for paragraph in open(filename + '.txt', 'r').readlines() if len(paragraph) > 0]
@@ -33,17 +34,20 @@ def extract_article_content(url):
 
     doc = Document(body)
     article_html = doc.summary()
+    article_text = h2t.handle(article_html).split("\n")
 
-    return [line for line in h2t.handle(article_html).split("\n") if len(line.strip()) > 0 and line.count(" ") > 5]  # Not blank and contains at least 6 words
+    return [line for line in article_text if len(line.strip()) > 0 and line.count(" ") > 5]  # Not blank and contains at least 6 words
 
 
 def get_article(url):
     try:
         lines = extract_article_content(url)
+        if len(lines) == 0:
+            return None
         return {'url': url, 'paragraphs': [{'text': line} for line in lines]}
     except urllib.error.HTTPError as e:
         print("Error retrieving article from: " + url)
-        pass  # Just chug right along...
+        return None  # Just chug right along...
 
 
 def get_related(keywords):
@@ -54,7 +58,7 @@ def get_related(keywords):
 
     request = urllib.request.Request("https://api.cognitive.microsoft.com/bing/v7.0/news/search?" + params)
     request.add_header('Content-Type', 'application/json')
-    request.add_header('Ocp-Apim-Subscription-Key', os.environ['SEARCH_API_KEY'])
+    request.add_header('Ocp-Apim-Subscription-Key', SEARCH_API_KEY)
     response = urllib.request.urlopen(request)
     data = json.loads(response.read())
 
