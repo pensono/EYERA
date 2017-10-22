@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from app.related_articles import *
+from app.extract_keywords import *
 
 # Create your views here.
 def index(request):
@@ -9,6 +10,10 @@ def index(request):
 
 # Horrible name, please change!!
 def get(request):
-    return JsonResponse({"result":get_related(["obama", "muslim"])})
-    # return JsonResponse({'foo': 'bar'})
+    highlight = request.GET.get('highlight', '')
+    keywords = keywords_from_string(highlight)
+    articles = get_related(keywords)
+    for article in articles:
+        article['keywords'] = keywords_from_article(article['text'])
+    return JsonResponse({"result": articles})
 

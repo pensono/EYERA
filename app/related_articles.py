@@ -1,7 +1,6 @@
 import os
 import json
 import urllib
-import re
 from urllib.parse import urlencode
 from urllib.request import Request
 from urllib.error import HTTPError
@@ -13,6 +12,7 @@ h2t.ignore_emphasis = True
 h2t.ignore_images = True
 h2t.ignore_links = True
 h2t.ignore_tables = True
+
 
 def extract_file(filename):
     paragraphs = [paragraph for paragraph in open(filename + '.txt', 'r').readlines() if len(paragraph) > 0]

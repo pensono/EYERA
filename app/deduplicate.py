@@ -33,7 +33,7 @@ dedup_article = all_articles[0]
 
 for article in all_articles[1:]:
     for paragraph in article:
-        #  See if it's a duplicate
+        #  See if it's a duplicatePYU
         dup = first_duplicate(paragraph, dedup_article)
         if dup is None:
             dedup_article.append(paragraph)
