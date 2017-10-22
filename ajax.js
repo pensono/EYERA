@@ -7,4 +7,4 @@ $(document).ready(function(){
       }
     });
   });
-}); /*SHOULD WORK FOR GETTING AJAX CALL BUT DOESNT???*/
+});
