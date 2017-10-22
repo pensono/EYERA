@@ -12,6 +12,9 @@ def index(request):
 # Horrible name, please change!!
 def get(request):
     highlight = request.GET.get('highlight', '')
+    if highlight == '':
+        return JsonResponse({"error": "please provide a highlight url param"})
+
     keywords = keywords_from_string(highlight)
     articles = get_related(keywords)
     for article in articles:
