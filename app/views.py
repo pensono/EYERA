@@ -6,6 +6,7 @@ from app.deduplicate import *
 from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
+@csrf_exempt
 def index(request):
     return HttpResponse("Hello, world. You're at the polls index.")
 
