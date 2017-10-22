@@ -13,7 +13,7 @@ def get_articles():
         paragraphs = get_lines_no_blanks(base + ".txt")
         keywords = get_lines_no_blanks(base + '.keywords')
 
-        articles.append([{'text':z[0], 'keywords':z[1].split(" ")} for z in zip(paragraphs, keywords)])
+        articles.append([{'text': z[0], 'keywords': z[1].split(" ")} for z in zip(paragraphs, keywords)])
     return articles
 
 
@@ -38,7 +38,12 @@ for article in all_articles[1:]:
         if dup is None:
             dedup_article.append(paragraph)
         else:
-            rejects.append({'reject':paragraph, 'matched_with':dup})
+            # reject the shortest one.
+            index = dedup_article.index(dup)
+            use = dup if len(dup['text']) > len(paragraph['text']) else paragraph
+            reject = paragraph if len(dup['text']) > len(paragraph['text']) else dup
+            dedup_article[index] = use
+            rejects.append({'reject': reject, 'matched_with': use})
 
 print("Article:")
 for paragraph in dedup_article:
