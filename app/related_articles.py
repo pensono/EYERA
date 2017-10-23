@@ -17,6 +17,7 @@ h2t.body_width = 0
 
 SEARCH_API_KEY = os.environ['SEARCH_API_KEY']
 
+
 def extract_file(filename):
     paragraphs = [paragraph for paragraph in open(filename + '.txt', 'r').readlines() if len(paragraph) > 0]
 
@@ -43,16 +44,16 @@ def get_article(url):
     try:
         (lines, title) = extract_article_content(url)
         if len(lines) == 0:
-            return None
+            return {'url': ''}
         return {'url': url, 'paragraphs': [{'text': line} for line in lines], 'title': title}
     except urllib.error.HTTPError as e:
         print("Error retrieving article from: " + url)
-        return None  # Just chug right along...
+        return {'url': ''}  # Just chug right along...
 
 
 def get_related(keywords):
     params = urllib.parse.urlencode({
-        'q': " ".join(keywords),
+        'q': " ".join(keywords[:15])[:1000], # No more than 15 keywords, and hard limit the size of the query to 1000
         'mkt': 'en-us',
     })
 
@@ -67,4 +68,4 @@ def get_related(keywords):
     pool.close()
     pool.join()
 
-    return [article for article in articles if article is not None]
+    return [article for article in articles if len(article['url']) > 0]
