@@ -6,7 +6,7 @@ chrome.tabs.executeScript( {
 
     $.ajax({
       type: "POST",
-      url: 'http://localhost:8000/app/get',
+      url: 'http://localhost:8000/app/lookup',
       data: {"highlight": selection[0] },
       success: function(result){
         var article = result.article;

@@ -22,7 +22,7 @@ def get(request):
         highlight = request.POST.get('highlight', '')
 
     if highlight == '':
-        return JsonResponse({"error": "please provide a highlight url param"})
+        return JsonResponse({"error": "Please provide a highlight url param"})
 
     keywords = keywords_from_string(highlight)
 
