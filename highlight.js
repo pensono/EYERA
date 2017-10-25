@@ -12,6 +12,8 @@ chrome.tabs.executeScript( {
         var article = result.article;
         var recommended = result.recommended;
 
+        $('#ajax').empty(); //removes "loading articles"
+
         for(var i = 0; i < recommended.length; i++){
             var oneRec = recommended[i];
             $("#ajax").append("<p><a target=\"_blank\" href=\"" + oneRec.url + "\">" + oneRec.title + "</a></p>");
