@@ -1,9 +1,9 @@
 chrome.tabs.executeScript( {
   code: "window.getSelection().toString();"
 }, function(selection) {
-  if(selection){
+  if(selection && selection[0]){ //only calls ajax if something is highlighted and highlighted text isn't empty
     document.getElementById("highlighted").innerHTML = "Related to: " + selection[0];
-
+    $("#ajax").append("<h4>Loading articles...</h4>");
     $.ajax({
       type: "POST",
       url: 'http://localhost:8000/app/lookup',
